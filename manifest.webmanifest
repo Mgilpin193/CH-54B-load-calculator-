@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "CH-54B Load Calculator",
+  "short_name": "CH-54B Calc",
+  "description": "Offline CH-54B load and performance calculator",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#080A0F",
+  "theme_color": "#0f111a",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
