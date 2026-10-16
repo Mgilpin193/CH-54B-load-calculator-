@@ -1,6 +1,6 @@
 # CH-54B iPad offline web app
 
-This folder contains an installable, offline-capable version of `VR101.html`.
+This folder contains an installable, offline-capable version of `VR101.html`. The aircraft selector lists CH-54S CMRB, CH-54A, CH-54B CMRB, and CH-54B. Only CH-54B performance data is currently loaded; selecting another type withholds performance-based results until its approved data is added.
 
 ## Important hosting requirement
 
