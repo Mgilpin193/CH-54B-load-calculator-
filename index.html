@@ -72,9 +72,19 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 
 </head><body>
 <div id="p1" class="page active">
-  <h1 style="font-size:11pt;margin:0">CH-54B PERFORMANCE</h1>
+  <h1 id="perfTitle" style="font-size:11pt;margin:0">CH-54B PERFORMANCE</h1>
   <div style="font-size:11px;color:#888;margin-bottom:8px">Exact from B_Model.xlsx • 8000/25=38500/29600/24900 • All inputs 20px/48px • Flows to Load Calc</div>
   <h2 style="font-size:12px;margin:12px 0 4px;color:#aaa">MISSION / DATE / AIRCRAFT</h2>
+  <div class="card" style="margin:0 0 8px;border:2px solid #60a5fa;background:#111827">
+    <label for="perfModel" style="font-weight:900;color:#93c5fd">AIRCRAFT TYPE</label>
+    <select id="perfModel" style="width:100%;background:#1e1e2e;border:1px solid #555;color:#fff;padding:4px 8px;border-radius:6px;font-size:12pt;height:48px;font-weight:800">
+      <option value="CH54S_CMRB">CH-54S CMRB</option>
+      <option value="CH54A">CH-54A</option>
+      <option value="CH54B_CMRB">CH-54B CMRB</option>
+      <option value="CH54B" selected>CH-54B</option>
+    </select>
+    <div id="perfModelNote" role="status" style="font-size:12px;margin-top:5px;color:#86efac">CH-54B performance data loaded.</div>
+  </div>
   <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;margin-bottom:12px">
     <div class="card"><label>MISSION</label><input autocomplete="off" id="perfMission" type="text" placeholder="MISSION"></div>
     <div class="card"><label>DATE</label><input autocomplete="off" id="perfDate" type="date"></div>
@@ -388,7 +398,43 @@ function normKey(n){const num=parseFloat(n); if(isNaN(num)) return String(n); if
 function lookup(table, alt, temp){const ak=normKey(alt), tk=normKey(temp); const row=table[ak]; if(!row) return null; const v=row[tk]; return v===undefined? null : v;}
 function parseNum(id){const el=document.getElementById(id); if(!el) return 0; const n=parseFloat(String(el.value).replace(/,/g,'')); return isNaN(n)?0:n;}
 function showTab(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active')); document.getElementById('p'+n).classList.add('active'); document.querySelectorAll('.tabbtn')[n-1].classList.add('active');}
+const AIRCRAFT_MODEL_PROFILES={
+  CH54S_CMRB:{label:'CH-54S CMRB',performanceAvailable:false},
+  CH54A:{label:'CH-54A',performanceAvailable:false},
+  CH54B_CMRB:{label:'CH-54B CMRB',performanceAvailable:false},
+  CH54B:{label:'CH-54B',performanceAvailable:true}
+};
+function selectedAircraftProfile(){
+  const picker=document.getElementById('perfModel');
+  return AIRCRAFT_MODEL_PROFILES[picker && picker.value] || AIRCRAFT_MODEL_PROFILES.CH54B;
+}
+function updateAircraftModelUI(){
+  const profile=selectedAircraftProfile();
+  const title=document.getElementById('perfTitle');
+  const modelField=document.getElementById('model');
+  const note=document.getElementById('perfModelNote');
+  if(title) title.textContent=profile.label+' PERFORMANCE';
+  if(modelField) modelField.value=profile.label;
+  if(note){
+    note.textContent=profile.performanceAvailable
+      ? 'CH-54B performance data loaded.'
+      : 'Performance data for '+profile.label+' has not been added. Performance-based results are withheld until its data is loaded.';
+    note.style.color=profile.performanceAvailable?'#86efac':'#fbbf24';
+  }
+  render();
+}
 function render(){
+  const profile=selectedAircraftProfile();
+  if(!profile.performanceAvailable){
+    const perfEl=document.getElementById('perf');
+    if(perfEl) perfEl.innerHTML='<div role="alert" style="grid-column:1/-1;border:3px solid #f59e0b;border-radius:10px;padding:14px;background:#451a03;color:#fff;font-weight:800">'+profile.label+' is selected, but its performance data has not been added yet. Performance-dependent results are withheld. Do not use this model until its approved tables are loaded and checked.</div>';
+    const summary=document.getElementById('summary');
+    if(summary) summary.innerHTML='<div role="alert" style="padding:10px;border:2px solid #f59e0b;background:#451a03;color:#fff;font-weight:800">'+profile.label+' performance data is not loaded. Performance-based load results are unavailable.</div>';
+    ['compHIGE','compHOGE','compHOGEJ','adjHIGE','adjHOGE','adjHOGEJ','selHIGE','selHOGE','selHOGEJ','allowHIGE','allowHOGE','allowHOGEJ','wrDEOGE','wrSEIGE','wrSEOGE','wrMaxEPR','wrMaxTorque'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    ['depCheckCell','destCheckCell'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+    if(typeof wrUpdateDisplay==='function') wrUpdateDisplay();
+    return;
+  }
   const alt=parseNum('alt'); const tmp=parseNum('tmp');
   const b=lookup(TABLES.B_Model.table, alt, tmp);
   const ige=lookup(TABLES.IGE.table, alt, tmp);
@@ -536,6 +582,10 @@ document.addEventListener('input', e=>{ if(e.target.id==='lpName'){ let d=docume
   if(e.target.id==='perfMan4'){ let d=document.getElementById('man4'); if(d) d.value=e.target.value; }
   if(e.target.id==='perfMan4w'){ let d=document.getElementById('man4w'); if(d) d.value=e.target.value; } if(e.target.tagName==='INPUT') render(); });
 document.addEventListener('change', e=>{ if(e.target.tagName==='INPUT') render(); });
+const aircraftModelPicker=document.getElementById('perfModel');
+if(aircraftModelPicker) aircraftModelPicker.addEventListener('change', updateAircraftModelUI);
+document.addEventListener('inputsRestored', updateAircraftModelUI);
+document.addEventListener('DOMContentLoaded', updateAircraftModelUI);
 render();
 
 // PERSIST ALL INPUTS TO LOCALSTORAGE - LAST ENTERED - fixed for DA cells
