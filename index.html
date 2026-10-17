@@ -290,10 +290,10 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
 <script>
 function calcGalWater(){
   try{
-    var allowEl=document.getElementById('allowHOGEJ')||document.getElementById('allowHOGE');
-    var allow=parseFloat((allowEl||{}).value||0);
-    if(!allow||isNaN(allow)) allow=0;
-    var gals=allow/8.3;
+    var payloadEl=document.getElementById('actualPayload');
+    var payload=parseFloat((payloadEl||{}).value||0);
+    if(!payload||isNaN(payload)) payload=0;
+    var gals=payload/8.3;
     if(gals>2700) gals=2700;
     if(gals<0) gals=0;
     var el=document.getElementById('galWaterCalc');
@@ -306,18 +306,18 @@ document.addEventListener('input', calcGalWater);
 
 
 <tr>
- <td colspan="8" class="bold"> 15.  ACTUAL PAYLOAD  (Total of all weights listed in item 14)</td>
+ <td colspan="8" class="bold"> 15.  PAYLOAD REMAINING  (Total of item 13 less weights listed in item 14)</td>
  <td colspan="3"><input autocomplete="off" id="actualPayload" class="manifest-weight" readonly style="text-align:right;font-weight:bold;background:#ffff99"></td>
 </tr>
 <tr>
- <td colspan="11" style="border:none;font-size:6pt;text-align:center">Line 15 must not exceed Line 13 for the intended mission</td>
+ <td colspan="11" style="border:none;font-size:6pt;text-align:center">Line 15 is the remaining payload after passenger / cargo weights are deducted from item 13</td>
 </tr>
 <tr>
- <td colspan="2">Pilots Signature</td><td colspan="6" style="width:40%;height:44px;border:none;position:relative" class="sig-cell" onclick="openSig(63)"><canvas id="sigCanvas63"></canvas><img id="sigImg63" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;display:none;pointer-events:none"></td>
+ <td colspan="2">Pilots Signature</td><td colspan="6" style="width:40%;height:44px;border:none;position:relative" class="sig-cell" onclick="openSig(63)"><img id="sigImg63" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;display:none;pointer-events:none"></td>
  <td colspan="3" class="bold center"> Hazmat</td>
 </tr>
 <tr>
- <td colspan="2">MGR Signature</td><td colspan="6" style="width:40%;height:44px;border:2px solid #000 !important;position:relative" class="sig-cell" onclick="openSig(66)"><canvas id="sigCanvas66"></canvas><img id="sigImg66" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;display:none;pointer-events:none"></td>
+ <td colspan="2">MGR Signature</td><td colspan="6" style="width:40%;height:44px;border:2px solid #000 !important;position:relative" class="sig-cell" onclick="openSig(66)"><img id="sigImg66" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;display:none;pointer-events:none"></td>
  <td colspan="3" class="bold center" style="font-size:9pt; line-height:1.2;">
    <div style="margin-top:3px; display:flex; justify-content:center; gap:18px; font-weight:900;">
      <label style="display:flex; align-items:center; gap:3px; cursor:pointer;"><input type="checkbox" id="hazYesCheck" style="width:16px; height:16px;"> YES</label>
@@ -328,7 +328,6 @@ document.addEventListener('input', calcGalWater);
 
 <style>
 .sig-cell{cursor:pointer;position:relative;min-height:20px;border:2px solid #000 !important}
-.sig-cell canvas{width:100%;height:100%;display:block}
 .sig-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center}
 .sig-modal.active{display:flex}
 .sig-box{background:white;padding:16px;border-radius:8px;width:90%;max-width:500px}
@@ -392,12 +391,6 @@ function saveSig(){
  let img=document.getElementById('sigImg'+currentSig);
  img.src=data;
  img.style.display='block';
- // also copy to small canvas preview
- let c=document.getElementById('sigCanvas'+currentSig);
- let cctx=c.getContext('2d');
- let im=new Image();
- im.onload=()=>{c.width=im.width;c.height=im.height;cctx.clearRect(0,0,c.width,c.height);cctx.drawImage(im,0,0)};
- im.src=data;
  closeSig();
 }
 
@@ -610,13 +603,12 @@ function render(){
   }
   let totalMan=0;
   for(let i=1;i<=4;i++){ totalMan+=parseNum('man'+i+'w'); }
-  const allowJ = parseNum('allowHOGEJ');
+  const line13Total=['allowHIGE','allowHOGE','allowHOGEJ'].reduce((sum,id)=>sum+parseNum(id),0);
   const ap=document.getElementById('actualPayload');
   if(ap){
-    if(allowJ && totalMan){ ap.value=Math.round(allowJ - totalMan); }
-    else if(allowJ && !totalMan){ ap.value=Math.round(allowJ); }
-    else { ap.value=totalMan?Math.round(totalMan):''; }
+    ap.value=line13Total?Math.round(line13Total-totalMan):'';
   }
+  calcGalWater();
   const gw=document.getElementById('galWater'); if(gw) gw.value=totalMan? (totalMan/8.3).toFixed(1):'';
 }
 document.addEventListener('input', e=>{ if(e.target.id==='lpName'){ let d=document.getElementById('pilots'); if(d) d.value=e.target.value; } if(e.target.id==='rpName'){ let d=document.getElementById('pilots3'); if(d) d.value=e.target.value; } if(e.target.id==='perfMission'){ let m=document.getElementById('mission'); if(m) m.value=e.target.value; let ms=document.getElementById('missionSummary'); if(ms) ms.value=e.target.value; } if(e.target.id==='perfDate'){ let d=document.getElementById('date'); if(d){ let v=e.target.value; if(v && v.includes('-')){ let p=v.split('-'); if(p.length===3){ let yy=p[0].slice(-2); d.value=p[1]+'/'+p[2]+'/'+yy; } else { d.value=v; } } else { d.value=v; } } } if(e.target.id==='perfNNum'){ let n=document.getElementById('nNum'); if(n) n.value=e.target.value; } if(e.target.id==='mission'){ let d=document.getElementById('missionSummary'); if(d) d.value=e.target.value; } if(e.target.id==='perfDepName'){ let d=document.getElementById('depName'); if(d) d.value=e.target.value; } if(e.target.id==='depName'){ let pd=document.getElementById('perfDepName'); if(pd) pd.value=e.target.value; } if(e.target.id==='destName'){ let pd=document.getElementById('perfDestName'); if(pd) pd.value=e.target.value; let alt=document.getElementById('alt'); if(alt && !alt.value) alt.value=e.target.value; } if(e.target.id==='perfDepPA'){ let d=document.getElementById('depPA'); if(d) d.value=e.target.value; } if(e.target.id==='perfDepOAT'){ let d=document.getElementById('depOAT'); if(d) d.value=e.target.value; } if(e.target.id==='perfDestName'){ let d=document.getElementById('destName'); if(d) d.value=e.target.value; } if(e.target.id==='perfDestNameOrig'){ let d=document.getElementById('destName'); if(d) d.value=e.target.value; } if(e.target.id==='destPA'){ let p=document.getElementById('alt'); if(p) p.value=e.target.value; } if(e.target.id==='destOAT'){ let p=document.getElementById('tmp'); if(p) p.value=e.target.value; } if(e.target.id==='alt'){ let d=document.getElementById('destPA'); if(d) d.value=e.target.value; } if(e.target.id==='tmp'){ let d=document.getElementById('destOAT'); if(d) d.value=e.target.value; let d18=document.getElementById('destPA'); // ensure cell18 gets altitude
@@ -1325,3 +1317,4 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script></body></html>
+
