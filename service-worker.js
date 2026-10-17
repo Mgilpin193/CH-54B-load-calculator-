@@ -1,9 +1,20 @@
 'use strict';
 
-const CACHE_NAME = 'ch54b-load-calculator-v2';
+const CACHE_NAME = 'ch54b-load-calculator-v32';
 const PRECACHE = [
   './',
   './index.html',
+  './cmrb-max-allowable.js',
+  './cmrb-ige.js',
+  './cmrb-oge.js',
+  './ch54a-max-allowable.js',
+  './ch54a-ige.js',
+  './ch54a-oge.js',
+  './ch54a-torque.js',
+  './ch54a-epr.js',
+  './ch54a-cmrb-max-allowable.js',
+  './ch54a-cmrb-ige.js',
+  './ch54a-cmrb-oge.js',
   './manifest.webmanifest',
   './apple-touch-icon.png',
   './icon-192.png',

@@ -1,6 +1,6 @@
 # CH-54B iPad offline web app
 
-This folder contains an installable, offline-capable version of `VR101.html`. The aircraft selector lists CH-54S CMRB, CH-54A, CH-54B CMRB, and CH-54B. Only CH-54B performance data is currently loaded; selecting another type withholds performance-based results until its approved data is added.
+This folder contains an installable, offline-capable version of `VR101.html`. The aircraft selector lists CH-54A, CH-54A CMRB, CH-54B CMRB, and CH-54B. CH-54B has its existing performance tables. CH-54B CMRB now has its Max Allowable and Single Engine IGE tables; Max EPR and Max Torque use the existing CH-54B tables. CH-54A performance data will be added separately. CH-54S CMRB and CH-54A has its Max Allowable, Single Engine IGE, Single Engine OGE, Max Torque, and Max EPR tables loaded. Missing performance results are withheld.
 
 ## Important hosting requirement
 
