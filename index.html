@@ -24,7 +24,9 @@ body{margin:0;background:#cfd8dc;font-family:Arial, sans-serif;padding-bottom:70
 #p1 .big{font-size:22px;font-weight:900;font-family:monospace}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
-.five{display:grid;grid-template-columns:1fr 90px 1fr 90px 110px;gap:6px}
+.five{display:grid;grid-template-columns:1fr 90px 1fr 90px;gap:6px}
+.aircraft-meta-grid{display:grid;grid-template-columns:1.1fr 0.85fr 1.5fr 1.15fr 0.95fr;gap:6px;margin-bottom:0}
+@media(max-width:600px){.aircraft-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.aircraft-meta-grid .mission-field{grid-column:1/-1}}
 #paper{background:white;max-width:860px;margin:8px auto;box-shadow:0 2px 12px rgba(0,0,0,.4);padding:10px;border:1px solid #999}
 #sheet{border:2px solid black;font-family:Arial, sans-serif;font-size:12px}
 #sheet table{width:100%;border-collapse:collapse}
@@ -75,7 +77,7 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
   <h1 id="perfTitle" style="font-size:11pt;margin:0;text-align:center">CH-54 Performance planner</h1>
   <div style="border:1px solid #888;border-radius:8px;padding:8px;margin:10px 0 12px;background:#111827">
     <h2 style="font-size:12px;margin:0 0 6px;color:#aaa">AIRCRAFT / MISSION / DATE</h2>
-    <div style="display:grid;grid-template-columns:1.1fr 0.85fr 1.5fr 1.15fr;gap:6px;margin-bottom:0">
+    <div class="aircraft-meta-grid">
       <div class="card"><label for="perfModel" style="font-weight:900;color:#bbb">AIRCRAFT TYPE</label><select id="perfModel" style="width:100%;background:#1e1e2e;border:1px solid #555;color:#fff;padding:4px 8px;border-radius:6px;font-size:12pt;height:48px;font-weight:800">
         <option value="CH54A">CH-54A</option>
         <option value="CH54A_CMRB">CH-54A CMRB</option>
@@ -92,8 +94,9 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
         <option value="N721HT">N721HT</option>
         <option value="N722HT">N722HT</option>
       </select></div>
-      <div class="card"><label>MISSION</label><input autocomplete="off" id="perfMission" type="text" placeholder="MISSION"></div>
+      <div class="card mission-field"><label>MISSION</label><input autocomplete="off" id="perfMission" type="text" placeholder="MISSION"></div>
       <div class="card"><label>DATE</label><input autocomplete="off" id="perfDate" type="date"></div>
+      <div class="card"><label for="empty">EMPTY WT LBS</label><input autocomplete="off" id="empty" type="text" inputmode="numeric" value="" style="height:48px;font-size:11pt;padding:4px 8px"></div>
     </div>
   </div>
   <div id="perfWarning" style="margin:0 0 8px"></div>
@@ -115,13 +118,12 @@ input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appear
   </div>
   <div id="destinationPerf"></div>
 </div>
-  <h2 style="font-size:11px;margin:8px 0 3px;color:#aaa">CREW & AIRCRAFT - COMPACT</h2>
+  <h2 style="font-size:11px;margin:8px 0 3px;color:#aaa">CREW - COMPACT</h2>
   <div class="five" style="gap:4px">
     <div class="card" style="padding:3px 6px"><label style="font-size:9px;margin-bottom:1px">LEFT PILOT NAME</label><input autocomplete="off" id="lpName" type="text" style="height:28px;font-size:10pt;padding:2px 6px"></div>
     <div class="card" style="padding:3px 6px"><label style="font-size:9px;margin-bottom:1px">LEFT WT LBS</label><input autocomplete="off" id="lpW" type="text" inputmode="numeric" value="" style="height:28px;font-size:10pt;padding:2px 6px"></div>
     <div class="card" style="padding:3px 6px"><label style="font-size:9px;margin-bottom:1px">RIGHT PILOT NAME</label><input autocomplete="off" id="rpName" type="text" style="height:28px;font-size:10pt;padding:2px 6px"></div>
     <div class="card" style="padding:3px 6px"><label style="font-size:9px;margin-bottom:1px">RIGHT WT LBS</label><input autocomplete="off" id="rpW" type="text" inputmode="numeric" value="" style="height:28px;font-size:10pt;padding:2px 6px"></div>
-    <div class="card" style="padding:3px 6px"><label style="font-size:9px;margin-bottom:1px">EMPTY WT LBS</label><input autocomplete="off" id="empty" type="text" inputmode="numeric" value="" style="height:28px;font-size:10pt;padding:2px 6px"></div>
   </div>
   <h2 style="font-size:11px;margin:8px 0 3px;color:#aaa">FUEL - COMPACT</h2>
   <div class="three" style="gap:4px">
@@ -946,8 +948,10 @@ function pdfBytes(text){var a=new Uint8Array(text.length);for(var i=0;i<text.len
 function pdfJoin(parts){var n=0;parts.forEach(function(p){n+=p.length;});var out=new Uint8Array(n),o=0;parts.forEach(function(p){out.set(p,o);o+=p.length;});return out;}
 function pdfFromCanvas(canvas){
  var b64=canvas.toDataURL('image/jpeg',0.96).split(',')[1],bin=atob(b64),jpg=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)jpg[i]=bin.charCodeAt(i);
- var w=396,h=canvas.height*0.375,content='q\n'+w+' 0 0 '+h+' 0 0 cm\n/Im0 Do\nQ\n';
- var objects=[pdfBytes('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n'),pdfBytes('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n'),pdfBytes('3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+w+' '+h+'] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\nendobj\n'),pdfJoin([pdfBytes('4 0 obj\n<< /Type /XObject /Subtype /Image /Width '+canvas.width+' /Height '+canvas.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>\nstream\n'),jpg,pdfBytes('\nendstream\nendobj\n')]),pdfBytes('5 0 obj\n<< /Length '+pdfBytes(content).length+' >>\nstream\n'+content+'endstream\nendobj\n')];
+ // US Letter landscape (11 x 8.5 in); keep the form in the left half.
+ var pageW=792,pageH=612,margin=18,formScale=Math.min(0.375,(pageH-margin*2)/canvas.height),formW=canvas.width*formScale,formH=canvas.height*formScale,x=margin,y=(pageH-formH)/2;
+ var content='q\n'+formW+' 0 0 '+formH+' '+x+' '+y+' cm\n/Im0 Do\nQ\n';
+ var objects=[pdfBytes('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n'),pdfBytes('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n'),pdfBytes('3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pageW+' '+pageH+'] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\nendobj\n'),pdfJoin([pdfBytes('4 0 obj\n<< /Type /XObject /Subtype /Image /Width '+canvas.width+' /Height '+canvas.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>\nstream\n'),jpg,pdfBytes('\nendstream\nendobj\n')]),pdfBytes('5 0 obj\n<< /Length '+pdfBytes(content).length+' >>\nstream\n'+content+'endstream\nendobj\n')];
  var parts=[pdfBytes('%PDF-1.4\n')],offsets=[0],len=parts[0].length;objects.forEach(function(o){offsets.push(len);parts.push(o);len+=o.length;});var xrefAt=len,xref='xref\n0 6\n0000000000 65535 f \n';for(var j=1;j<offsets.length;j++)xref+=('0000000000'+offsets[j]).slice(-10)+' 00000 n \n';xref+='trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+xrefAt+'\n%%EOF';parts.push(pdfBytes(xref));return new Blob([pdfJoin(parts)],{type:'application/pdf'});
 }
 function pdfText(ctx,node,bounds,scale){
