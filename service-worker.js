@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'ch54b-load-calculator-v34';
+const CACHE_NAME = 'ch54b-load-calculator-v36';
 const PRECACHE = [
   './',
   './index.html',
@@ -71,3 +71,4 @@ self.addEventListener('fetch', event => {
     }))
   );
 });
+
