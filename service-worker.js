@@ -1,9 +1,11 @@
 'use strict';
 
-const CACHE_NAME = 'ch54b-load-calculator-v38';
+const CACHE_NAME = 'ch54b-load-calculator-v86';
 const PRECACHE = [
   './',
   './index.html',
+  './weight-and-balance.html',
+  './fireline-planner.html',
   './cmrb-max-allowable.js',
   './cmrb-ige.js',
   './cmrb-oge.js',
@@ -71,4 +73,3 @@ self.addEventListener('fetch', event => {
     }))
   );
 });
-
