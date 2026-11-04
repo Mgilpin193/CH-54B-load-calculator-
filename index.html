@@ -527,7 +527,7 @@ document.getElementById('perfMissionType')?.addEventListener('change',window.syn
   // Sync to Weight Ref tab - destination values
   try{
     let wrDEOGE = document.getElementById('wrDEOGE');
-     const deOgeValue=profile.tables.deOge?deOge:b;
+     const deOgeValue=b;
      if(wrDEOGE) wrDEOGE.value = deOgeValue==null?'':Math.round(deOgeValue).toLocaleString();
     let wrSEIGE = document.getElementById('wrSEIGE');
     if(wrSEIGE) wrSEIGE.value = ige==null?'':Math.round(ige).toLocaleString();
