@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "CH-54B Load Calculator",
-  "short_name": "CH-54B Calc",
-  "description": "Offline CH-54B load and performance calculator",
+  "name": "CH-54 Load Calculator",
+  "short_name": "CH-54",
+  "description": "Offline CH-54 load and performance calculator",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
