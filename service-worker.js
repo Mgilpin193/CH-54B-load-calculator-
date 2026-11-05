@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'ch54b-load-calculator-v96';
+const CACHE_NAME = 'ch54b-load-calculator-v103';
 const PRECACHE = [
   './',
   './index.html',
