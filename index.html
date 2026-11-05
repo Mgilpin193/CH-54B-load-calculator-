@@ -1211,8 +1211,9 @@ function syncDestPerfToWeightRef(){
   const profile=selectedAircraftProfile();
   const eprTable=profile.tables.maxEpr?TABLES[profile.tables.maxEpr]:null;
   const torqueTable=profile.tables.maxTorque?TABLES[profile.tables.maxTorque]:null;
-  const epr=eprTable?lookup(eprTable.table,selected.altitude,selected.oat):null;
-  const torque=torqueTable?lookup(torqueTable.table,selected.altitude,selected.oat):null;
+  const lookupAltitude=Math.ceil(selected.altitude/100)*100;
+  const epr=eprTable?lookup(eprTable.table,lookupAltitude,selected.oat):null;
+  const torque=torqueTable?lookup(torqueTable.table,lookupAltitude,selected.oat):null;
   if(altOut){altOut.value=selected.altitude.toLocaleString();altOut.title=selected.label+' endpoint selected (DA '+selected.da.toLocaleString()+' ft)';}
   if(oatOut){oatOut.value=selected.oat; oatOut.title=selected.label+' endpoint selected (DA '+selected.da.toLocaleString()+' ft)';}
   if(eprOut){eprOut.value=epr==null?'':Number(epr).toFixed(3);eprOut.title=selected.label+' endpoint selected (DA '+selected.da.toLocaleString()+' ft)';}
