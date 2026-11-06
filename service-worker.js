@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'ch54b-load-calculator-v103';
+const CACHE_NAME = 'ch54b-load-calculator-v110';
 const PRECACHE = [
   './',
   './index.html',
@@ -20,6 +20,9 @@ const PRECACHE = [
   './ch54b-oge.js',
   './manifest.webmanifest',
   './apple-touch-icon.png',
+  './company-logo.png',
+  './Checklist/index.html',
+  './Checklist/checklist.js',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png'
@@ -74,3 +77,4 @@ self.addEventListener('fetch', event => {
     }))
   );
 });
+

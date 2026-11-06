@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c141b">
+  <title>CH-54 Aircraft Checklist</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#0c141b;color:#edf4f7;font-family:Arial,Helvetica,sans-serif}
+    main{min-height:100vh;max-width:850px;margin:auto;padding:18px 14px 34px}
+    h1{font-size:24px;text-align:center;margin:8px 0 4px}.subtitle{text-align:center;color:#9db1bc;margin:0}
+    .meta{margin:22px 0 8px;display:flex;justify-content:space-between;gap:10px;align-items:center}.section{color:#75c6b8;font-weight:700}.progress{color:#9db1bc}
+    .track{height:7px;background:#243540;border-radius:99px;overflow:hidden}.bar{height:100%;width:0;background:#34d399;transition:width .2s}
+    .card{background:#14212a;border:1px solid #405460;border-radius:16px;padding:18px;margin:18px 0;min-height:220px;display:flex;flex-direction:column;justify-content:center}
+    .item{font-size:clamp(24px,6vw,38px);font-weight:800;line-height:1.25;text-align:center}.action{font-size:clamp(18px,4.5vw,25px);color:#b7c8d0;text-align:center;margin-top:16px}
+    .controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.controls button,.reset{border:0;border-radius:10px;min-height:58px;font-size:16px;font-weight:800;cursor:pointer}
+    .complete{background:#15803d;color:white}.postpone{background:#f59e0b;color:#111}.back{background:#334651;color:white}.controls button:disabled{opacity:.45;cursor:default}
+    .reset{display:block;background:#243540;color:#d9e4e9;padding:10px 14px;margin:14px auto 0}
+    .postponed-list{margin-top:20px;padding:16px;background:#14212a;border:1px solid #405460;border-radius:12px}.postponed-list h2{font-size:18px;margin:0 0 10px}.postponed-entry{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid #30434f}.postponed-entry p{margin:0}.postponed-entry small{display:block;color:#aebfc8;margin-top:4px}.postponed-entry button{border:0;border-radius:8px;background:#0f766e;color:white;font-weight:700;padding:10px;cursor:pointer}
+    .notice{font-size:12px;line-height:1.5;color:#9db1bc;margin-top:22px}
+    @media(max-width:520px){main{padding:14px 10px}.controls{gap:6px}.controls button{font-size:13px;min-height:54px}}
+  </style>
+</head>
+<body>
+<main>
+  <h1>CH-54 CHECKLIST</h1>
+  <p class="subtitle">One action at a time · Follow the approved aircraft checklist</p>
+  <div class="meta"><strong id="checkSection" class="section">Ready</strong><span id="checkProgress" class="progress"></span></div>
+  <div class="track"><div id="checkProgressBar" class="bar"></div></div>
+  <section class="card" aria-live="polite"><div id="checkItem" class="item">Ready to begin?</div><div id="checkAction" class="action">Start the checklist when ready.</div></section>
+  <div class="controls"><button class="back" onclick="checkBack()">← Go back</button><button class="postpone" onclick="checkPostpone()">Postpone</button><button class="complete" onclick="checkComplete()">Complete ✓</button></div>
+  <button class="reset" onclick="checkReset()">Start over</button>
+  <section id="postponedList" class="postponed-list" hidden aria-live="polite"></section>
+  <p class="notice">This is a convenience interface for the provided checklist. Verify each action against the current approved aircraft checklist and procedures. The source checklist notes that underlined items are for the first start of the day and need not be repeated on thru-flight starts; items shown in green are verbal callouts.</p>
+</main>
+<script src="checklist.js"></script>
+</body>
+</html>
+
