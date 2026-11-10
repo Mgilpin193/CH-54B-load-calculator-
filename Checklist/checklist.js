@@ -38,4 +38,3 @@ function checkBack(){if(checklistCursor>0){checklistCursor--;renderChecklist()}}
 function resumePostponed(id){const item=AIRCRAFT_CHECKLIST.find(x=>x.id===id);if(!item)return;checklistPostponed.delete(id);checklistQueue.splice(checklistCursor,0,{...item});saveChecklistState();renderChecklist()}
 function checkReset(){checklistDone.clear();checklistPostponed.clear();checklistQueue=AIRCRAFT_CHECKLIST.map(x=>({...x}));checklistCursor=0;saveChecklistState();renderChecklist()}
 document.addEventListener('DOMContentLoaded',renderChecklist);
-

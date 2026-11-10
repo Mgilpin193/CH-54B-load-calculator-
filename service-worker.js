@@ -1,9 +1,12 @@
 'use strict';
 
-const CACHE_NAME = 'ch54b-load-calculator-v110';
+const CACHE_NAME = 'ch54b-load-calculator-v124';
 const PRECACHE = [
   './',
   './index.html',
+  './aircraft-checklists.js',
+  './aircraft-checklists.css',
+  './Checklist/embedded.js',
   './weight-and-balance.html',
   './fireline-planner.html',
   './cmrb-max-allowable.js',
@@ -22,7 +25,18 @@ const PRECACHE = [
   './apple-touch-icon.png',
   './company-logo.png',
   './Checklist/index.html',
+  './Checklist/ch54a.html',
   './Checklist/checklist.js',
+  './Checklist/normal.html',
+  './Checklist/normal-data.js',
+  './Checklist/normal.js',
+  './Checklist/list-runner.js',
+  './Checklist/list-runner.css',
+  './Checklist/emergency.html',
+  './Checklist/emergency-data.js',
+  './Checklist/emergency-a.html',
+  './Checklist/emergency-a-data.js',
+  './Checklist/emergency.js',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png'
@@ -40,7 +54,7 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(keys
-        .filter(key => key.startsWith('ch54b-load-calculator-') && key !== CACHE_NAME)
+        .filter(key => (key.startsWith('ch54b-load-calculator-') || key.startsWith('ch54-checklist-preview-')) && key !== CACHE_NAME)
         .map(key => caches.delete(key))))
       .then(() => self.clients.claim())
   );
@@ -62,7 +76,7 @@ self.addEventListener('fetch', event => {
           }
           return response;
         })
-        .catch(async () => (await caches.match(request)) || (await caches.match('./index.html')))
+        .catch(async () => (await caches.match(request, {ignoreSearch: url.searchParams.get('embedded') === '1'})) || (await caches.match('./index.html')))
     );
     return;
   }
@@ -77,4 +91,3 @@ self.addEventListener('fetch', event => {
     }))
   );
 });
-

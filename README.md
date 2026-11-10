@@ -1,21 +1,35 @@
-# CH-54B iPad offline web app
+# CH-54 Performance and Checklists
 
-This folder contains an installable, offline-capable version of `VR101.html`. The aircraft selector lists CH-54A, CH-54A CMRB, CH-54B CMRB, and CH-54B. CH-54B has its existing performance tables. CH-54B CMRB now has its Max Allowable and Single Engine IGE tables; Max EPR and Max Torque use the existing CH-54B tables. CH-54A performance data will be added separately. CH-54S CMRB and CH-54A has its Max Allowable, Single Engine IGE, Single Engine OGE, Max Torque, and Max EPR tables loaded. Missing performance results are withheld.
+An iPad-friendly web app combining CH-54 performance planning, load calculations, weight reference, weight and balance, normal checklists, and emergency procedures.
 
-## Important hosting requirement
+## Open the app
 
-The app must be served from an HTTPS website so Safari can install its service worker. Opening `index.html` as a local file, from a OneDrive preview, or from a Google Drive preview will not enable offline-app installation.
+https://mgilpin193.github.io/CH-54B-load-calculator-/
 
-## Publish with GitHub Pages\r\n\r\nGitHub Pages can serve this package over HTTPS, which is required for the offline cache. On a free GitHub account, the repository and published site must be public; the HTML source and embedded performance tables will be visible to anyone. Do not publish if that content must remain private.\r\n\r\n1. Create a new **public** GitHub repository.\r\n2. Upload every file from this folder to the repository root (not the ZIP itself).\r\n3. In the repository, open **Settings → Pages**. Under **Build and deployment**, choose **Deploy from a branch**, select `main` and `/(root)`, then save.\r\n4. Wait for GitHub Pages to publish the site URL.\r\n\r\n## Install on iPad
+On an iPad, open the link in Safari. To install it, choose Share, then Add to Home Screen. Open the installed app while online once to cache its files before checking offline use.
 
-1. Publish the complete contents of this folder to an HTTPS static website. Keep `index.html`, `manifest.webmanifest`, `service-worker.js`, and the PNG icons together in the same folder.
-2. On the iPad, open the website's `index.html` URL in Safari while online and wait for the calculator to load.
-3. Tap Safari's Share button, choose **Add to Home Screen**, and add it.
-4. Open the new CH-54B icon once while online. After that initial load, the service worker caches the calculator and its icons for offline use.
-5. To confirm offline use, open the Home Screen app once, then enable Airplane Mode and reopen it.
+## Aircraft and checklist availability
 
-## Data and privacy
+The performance selector includes CH-54A, CH-54A CMRB, CH-54B, and CH-54B CMRB. The Checklist and red Emergency tabs follow the selected aircraft.
 
-The calculator sends no entered values to the host. Form entries are saved by the browser on that device. The browser fetches the app files from the host when online and uses the service-worker cache when offline. The website host will contain the calculator's HTML and embedded performance tables; use an access-controlled host if those should not be public.
+- CH-54A normal checklist: loaded, with Complete, Postpone, Go back, and postponed-item review.
+- After CH-54A engine 2 start: choose Ground Taxi or Before Takeoff. Ground Taxi then leads to Before Takeoff.
+- CH-54A and CH-54B emergency procedures: loaded, with category menus and checkboxes.
+- CH-54B normal checklist: not yet available.
+- CMRB checklists and emergency procedures: unavailable pending confirmation of applicability.
 
-A new release requires uploading the updated files and increasing `CACHE_NAME` in `service-worker.js` so installed copies refresh cleanly.
+Switching tabs retains the checklist position for the current page session. Performance entries are stored in the browser on that device. They are not sent to the website host.
+
+## Review status
+
+Checklist and emergency content is a review draft transcribed from supplied documents. Verify against current approved aircraft manuals, checklists, warnings, and limitations before operational use. Some source wording and external page references still require review.
+
+## Offline updates
+
+Keep the application assets in their existing relative paths. When publishing an update, increase CACHE_NAME in service-worker.js. Open the app online and refresh to load the update before using it offline.
+
+GitHub Pages serves this public repository from the main branch at the repository root. App source, procedure text, and performance tables are publicly readable.
+
+## Development check
+
+Run node tests/aircraft-checklists.test.cjs to check aircraft routing, unavailable-checklist handling, and frame retention. No build step is required.

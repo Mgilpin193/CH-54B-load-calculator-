@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0c141b">
+<title>CH-54B Emergency Procedures</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c141b;color:#edf4f7;font-family:Arial,Helvetica,sans-serif}main{max-width:900px;margin:auto;padding:24px 18px 48px}a{color:#b9d7e8}header{margin-bottom:24px}header p{color:#aebfc8;line-height:1.5}h1{font-size:clamp(25px,5vw,36px);line-height:1.2}h2{font-size:24px;line-height:1.35}button{font:inherit;cursor:pointer;min-height:52px;border-radius:10px;font-weight:700}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #7dd3fc;outline-offset:4px}.navigation{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}.navigation button,.reset{background:#243540;color:white;border:1px solid #58717f;padding:12px 16px}.menu{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}.menu button{text-align:left;padding:20px;line-height:1.4;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:16px}.category{background:#481b24;border:2px solid #e55762;color:#fff}.procedure{background:#392a16;border:2px solid #edab42;color:#fff}.arrow{font-size:24px}.warning{border-left:4px solid #f6b84e;background:#2c251b;padding:16px;line-height:1.6;margin:14px 0}.condition{font-weight:700;line-height:1.6;margin:24px 0 12px}.actions{padding:0;list-style:none}.action{margin:12px 0;background:#14212a;border:1px solid #405460;border-radius:10px}.action label{display:flex;gap:16px;align-items:flex-start;padding:20px;cursor:pointer;font-size:20px;line-height:1.5}.action input{width:26px;height:26px;flex-shrink:0;margin:3px 0;accent-color:#56bda3}.action:has(input:checked){border-color:#56bda3;background:#16322d}.action:has(input:checked) .step-text{color:#b6d3c9}.step-number{color:#9db1bc;font-size:14px;display:block}.progress{color:#aebfc8;line-height:1.5}.review{font-size:13px;color:#aebfc8;line-height:1.6;margin-top:32px}.current-category{color:#f2959b;font-size:15px}.empty{color:#aebfc8}@media(max-width:600px){.menu{grid-template-columns:1fr}main{padding:18px 12px 32px}.action label{font-size:18px;padding:16px}}@media print{body{background:white;color:black}.navigation,header>a,.reset,.review{display:none}.action,.warning{background:white;color:black;border-color:#777}.progress,.current-category,.step-number{color:#333}.action:has(input:checked){background:white}}
+</style>
+<link rel="stylesheet" href="list-runner.css">
+</head>
+<body>
+<main>
+<header><a href="index.html">Main menu</a><h1>CH-54B Emergency Procedures</h1><p>Select a category, then select an emergency procedure.</p></header>
+<nav class="navigation" id="navigation" aria-label="Emergency checklist navigation"></nav>
+<section id="content" aria-labelledby="view-title"></section>
+<p class="review">Review draft from the supplied B model emergency procedures. Verify against the current approved aircraft procedures before operational use. Source wording is preserved, including unresolved wording and external checklist references.</p>
+</main>
+<script src="emergency-data.js"></script>
+<script src="emergency.js"></script>
+<script src="embedded.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0c141b">
+<title>CH-54A Menu</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c141b;color:#edf4f7;font-family:Arial,Helvetica,sans-serif}main{max-width:850px;margin:auto;padding:36px 18px}h1{font-size:32px;margin:24px 0 12px}p{color:#aebfc8;line-height:1.6}.menu{display:grid;gap:18px;margin-top:32px}.menu a{display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:110px;padding:24px;border-radius:14px;color:white;text-decoration:none;font-size:24px;font-weight:700;line-height:1.4}.normal{background:#153b36;border:2px solid #55bba6}.emergency{background:#481b24;border:2px solid #e55762}a:focus-visible{outline:3px solid #7dd3fc;outline-offset:4px}.arrow{font-size:32px}.notice{font-size:13px;margin-top:32px}@media(max-width:520px){main{padding:24px 14px}.menu a{font-size:21px}}
+</style>
+</head>
+<body>
+<main>
+<a href="index.html" style="color:#b9d7e8">Main menu</a><h1>CH-54A</h1>
+<p>Choose a checklist or emergency procedure.</p>
+<nav class="menu" aria-label="CH-54A menu">
+<a class="normal" href="normal.html"><span>Checklist</span><span class="arrow" aria-hidden="true">›</span></a>
+<a class="emergency" href="emergency-a.html"><span>Emergency Procedures</span><span class="arrow" aria-hidden="true">›</span></a>
+</nav>
+<p class="notice">Review draft. Verify against current approved aircraft checklists and procedures before operational use.</p>
+</main>
+<script>
+if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('../service-worker.js').catch(() => {});
+</script>
+</body>
+</html>
