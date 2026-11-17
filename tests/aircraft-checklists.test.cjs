@@ -43,9 +43,9 @@ const context = {
 vm.runInNewContext(fs.readFileSync('aircraft-checklists.js', 'utf8'), context);
 const app = context.window.CH54Checklist;
 app.openChecklist();
-assert.equal(ids.checklistUnavailable.hidden, false);
-assert.match(ids.checklistUnavailable.querySelector('p').textContent, /CH-54B/);
-assert.equal(ids.checklistHost.children.length, 0);
+assert.equal(ids.checklistUnavailable.hidden, true);
+const bFrame = ids.checklistHost.children[0];
+assert.equal(bFrame.src, 'Checklist/normal-b.html?embedded=1');
 app.openEmergency();
 assert.equal(ids.emergencyHost.children[0].src, 'Checklist/emergency.html?embedded=1');
 ids.perfModel.value = 'CH54A';
@@ -53,18 +53,23 @@ ids.perfModel.fire('change');
 assert.equal(ids.emergencyHost.children[0].hidden, true);
 assert.equal(ids.emergencyHost.children[1].src, 'Checklist/emergency-a.html?embedded=1');
 app.openChecklist();
-const savedFrame = ids.checklistHost.children[0];
+const savedFrame = ids.checklistHost.children[1];
+assert.equal(bFrame.hidden, true);
 assert.equal(savedFrame.src, 'Checklist/normal.html?embedded=1');
 savedFrame.progress = 'Item 6';
 app.openEmergency();
 app.openChecklist();
-assert.equal(ids.checklistHost.children[0], savedFrame);
+assert.equal(ids.checklistHost.children[1], savedFrame);
 assert.equal(savedFrame.progress, 'Item 6');
-for (const model of ['CH54A_CMRB', 'CH54B_CMRB']) {
+for (const [model, source] of [
+  ['CH54A_CMRB', savedFrame.src],
+  ['CH54B_CMRB', bFrame.src]
+]) {
   ids.perfModel.value = model;
   ids.perfModel.fire('change');
   app.openChecklist();
-  assert.equal(ids.checklistUnavailable.hidden, false);
+  assert.equal(ids.checklistUnavailable.hidden, true);
+  assert.deepEqual(ids.checklistHost.children.filter(frame => !frame.hidden).map(frame => frame.src), [source]);
   app.openEmergency();
   assert.equal(ids.emergencyUnavailable.hidden, false);
   assert.ok(ids.emergencyHost.children.every(frame => frame.hidden));
@@ -74,7 +79,7 @@ documentEvents.inputsRestored();
 assert.equal(ids.selectedEmergencyButton.textContent, 'EMERGENCY');
 assert.equal(ids.selectedEmergencyButton.attributes['aria-label'], 'CH-54A Emergency Procedures');
 assert.equal(ids.emergencyHost.children[1].hidden, false);
-console.log('PASS: aircraft-specific routing, missing-checklist handling, CMRB isolation, frame progress retention, restored aircraft selection.');
+console.log('PASS: base and CMRB checklist routing, emergency availability, frame progress retention, restored aircraft selection.');
 
 const html = fs.readFileSync('index.html', 'utf8');
 assert.equal((html.match(/id="tabChecklist"/g) || []).length, 1);

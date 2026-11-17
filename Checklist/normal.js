@@ -1,9 +1,9 @@
 'use strict';
 (() => {
-  const sections = window.NORMAL_CHECKLIST.sections;
+  const { sections, model = 'CH-54A' } = window.NORMAL_CHECKLIST;
   const content = document.getElementById('content');
   const navigation = document.getElementById('navigation');
-  const renderList = window.createChecklistRunner();
+  const renderList = window.createChecklistRunner(model);
   function el(tag, text, className) {
     const node = document.createElement(tag);
     if (text) node.textContent = text;
@@ -39,9 +39,10 @@
     } else {
       const next = sections[sections.indexOf(section) + 1];
       const last = section.items[section.items.length - 1];
-      const hasCompletionStatement = last?.type === 'action' && /complete\s*$/i.test(last.text);
-      const nextChoices = section.title === '#2 Engine Start'
-        ? sections.filter(item => item.title === 'Ground Taxi (if required)' || item.title === 'Before Takeoff Check')
+      const hasCompletionStatement = last?.type === 'completion' ||
+        (model === 'CH-54A' && last?.type === 'action' && /complete\s*$/i.test(last.text));
+      const nextChoices = /^(#2 Engine Start|Second Engine Start)$/i.test(section.title)
+        ? sections.filter(item => /^Ground Taxi(?: \(if required\))?$/.test(item.title) || item.title === 'Before Takeoff Check')
           .map(item => ({ label: item.title, onSelect: () => { location.hash = item.id; } }))
         : undefined;
       renderList(content, { ...section, items: hasCompletionStatement ? section.items.slice(0, -1) : section.items }, render, {

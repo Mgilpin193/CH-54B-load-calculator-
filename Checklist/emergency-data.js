@@ -64,7 +64,8 @@ window.EMERGENCY_CHECKLIST = {
             },
             {
               "type": "action",
-              "text": "Engine – cleanup."
+              "text": "Engine – cleanup.",
+              "procedureLink": "category-1-procedure-4"
             },
             {
               "type": "action",

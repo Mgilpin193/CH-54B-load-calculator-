@@ -57,7 +57,8 @@ window.NORMAL_CHECKLIST = {
           "text": "Collective Switches Centered",
           "type": "action",
           "callout": false,
-          "underlined": true
+          "underlined": true,
+          "expanded": "collective"
         },
         {
           "text": "Nosewheel and Parking Brake set required",
@@ -69,7 +70,8 @@ window.NORMAL_CHECKLIST = {
           "text": "Center Console Switches Set as Required",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "console"
         },
         {
           "text": "Battery Switch On",
@@ -105,13 +107,15 @@ window.NORMAL_CHECKLIST = {
           "text": "System & Flight Instruments Checked",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "instruments"
         },
         {
           "text": "Caution Advisory Panel Test",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "panel"
         },
         {
           "text": "(E Model) MRGBX Chip Light Test/Reset",
@@ -129,7 +133,8 @@ window.NORMAL_CHECKLIST = {
           "text": "Overhead Switches Set as Required",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "overhead"
         },
         {
           "text": "Circuit Breakers In",
@@ -171,7 +176,8 @@ window.NORMAL_CHECKLIST = {
           "text": "APP Start",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "app"
         },
         {
           "text": "Inverter Switch On",
@@ -189,7 +195,8 @@ window.NORMAL_CHECKLIST = {
           "text": "Generator & Inverter Check as required",
           "type": "action",
           "callout": false,
-          "underlined": true
+          "underlined": true,
+          "expanded": "generator"
         },
         {
           "text": "Generator & Rectifier On",
@@ -213,7 +220,8 @@ window.NORMAL_CHECKLIST = {
           "text": "Avionics Check and Set as Required",
           "type": "action",
           "callout": false,
-          "underlined": true
+          "underlined": true,
+          "expanded": "avionics"
         },
         {
           "text": "Before Starting Engine Complete",
@@ -231,7 +239,8 @@ window.NORMAL_CHECKLIST = {
           "text": "Fuel System Check as Required",
           "type": "action",
           "callout": false,
-          "underlined": true
+          "underlined": true,
+          "expanded": "fuel"
         },
         {
           "text": "Fuel System On",
@@ -255,13 +264,18 @@ window.NORMAL_CHECKLIST = {
           "text": "Fire Warning Systems Test and Check",
           "type": "action",
           "callout": false,
-          "underlined": true
+          "underlined": true,
+          "expanded": "fire"
         },
         {
           "text": "Tank/Mission Equipment Check as Applicable",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": [
+            "simplex",
+            "erickson"
+          ]
         },
         {
           "text": "System Check Complete",
@@ -297,7 +311,8 @@ window.NORMAL_CHECKLIST = {
           "text": "Engine Start",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "engine"
         },
         {
           "text": "Ignition Switch Off",
@@ -333,7 +348,8 @@ window.NORMAL_CHECKLIST = {
           "text": "AFCS Servo & Flight Control Check as required",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "controls"
         },
         {
           "text": "AFCS Servo On",
@@ -345,7 +361,8 @@ window.NORMAL_CHECKLIST = {
           "text": "AFCS Check",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "afcs"
         },
         {
           "text": "2nd Stage Servo Off Check No Pressure Drop",
@@ -375,7 +392,8 @@ window.NORMAL_CHECKLIST = {
           "text": "Hydraulic Interlock Check",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "interlock"
         },
         {
           "text": "Pilot to Crewchief “Ready Roll Up #1”.",
@@ -447,7 +465,8 @@ window.NORMAL_CHECKLIST = {
           "text": "*Second Engine Start",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "engine"
         },
         {
           "text": "Ignition Switch Off",
@@ -501,7 +520,11 @@ window.NORMAL_CHECKLIST = {
           "text": "*Tank / Mission Equipment Armed & Check as Required",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": [
+            "simplex",
+            "erickson"
+          ]
         },
         {
           "text": "Chocks & Doors Secured",
@@ -819,7 +842,8 @@ window.NORMAL_CHECKLIST = {
           "text": "APP Start",
           "type": "action",
           "callout": false,
-          "underlined": false
+          "underlined": false,
+          "expanded": "app"
         },
         {
           "text": "After Landing Check Complete",

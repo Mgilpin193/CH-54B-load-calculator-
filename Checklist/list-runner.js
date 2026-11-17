@@ -1,5 +1,5 @@
 'use strict';
-window.createChecklistRunner = function () {
+window.createChecklistRunner = function (model = 'CH-54A') {
   const states = new Map();
   let advanceTimer;
   function cancelPending() { clearTimeout(advanceTimer); }
@@ -18,6 +18,33 @@ window.createChecklistRunner = function () {
   function wording(item) {
     return el('p', item.text, [item.callout ? 'verbal' : '', item.underlined ? 'source-underline' : ''].filter(Boolean).join(' '));
   }
+  function appendExpandedCheck(container, item) {
+    const ids = Array.isArray(item.expanded) ? item.expanded : [item.expanded];
+    for (const id of ids) {
+      const check = window.EXPANDED_CHECKS?.[id];
+      if (check) appendExpandedButton(container, check, ids.length > 1 ? check.title : 'Expanded check');
+    }
+  }
+
+  function appendExpandedButton(container, check, label) {
+    const open = button(label, 'expanded-open', () => {
+      const dialog = el('dialog', '', 'expanded-check');
+      dialog.setAttribute('aria-label', check.title);
+      const header = el('header', '', 'expanded-header');
+      const back = button('Back to item', 'expanded-open', () => dialog.close());
+      back.autofocus = true;
+      header.append(back, el('h3', check.title));
+      dialog.append(header);
+      for (const line of check.lines) dialog.append(el('p', line.text, line.style));
+      dialog.addEventListener('close', () => {
+        dialog.remove();
+        open.focus();
+      }, { once: true });
+      container.append(dialog);
+      dialog.showModal();
+    });
+    container.append(open);
+  }
   function renderList(content, list, refresh, options = {}) {
     cancelPending();
     const actions = list.items.filter(item => item.type === 'action');
@@ -34,6 +61,7 @@ window.createChecklistRunner = function () {
       card.setAttribute('aria-live', 'polite');
       card.append(el('p', 'Item ' + (state.cursor + 1) + ' of ' + actions.length + (current.callout ? ' · Verbal callout' : ''), 'step-number'), wording(current));
       content.append(card);
+      appendExpandedCheck(content, current);
     } else {
       content.append(el('h3', state.postponed.size ? 'Postponed items' : (actions.length ? (options.completionStatement || list.title + ' complete') : 'Procedure reference'), 'completion-statement'));
       if (state.postponed.size) {
@@ -42,6 +70,7 @@ window.createChecklistRunner = function () {
           const row = el('div', '', 'postponed-entry');
           const text = el('div');
           text.append(el('span', 'Item ' + (index + 1), 'step-number'), wording(actions[index]));
+          appendExpandedCheck(text, actions[index]);
           row.append(text, button('Complete', 'runner-complete', () => {
             state.postponed.delete(index);
             state.done.add(index);
@@ -101,8 +130,8 @@ window.createChecklistRunner = function () {
       state.postponed.clear();
       refresh();
     }));
-    const emergencyLink = el('a', 'CH-54A Emergency Procedures', 'emergency-shortcut');
-    emergencyLink.href = 'emergency-a.html';
+    const emergencyLink = el('a', model + ' Emergency Procedures', 'emergency-shortcut');
+    emergencyLink.href = model === 'CH-54B' ? 'emergency.html' : 'emergency-a.html';
     content.append(emergencyLink);
   };
   renderList.cancelPending = cancelPending;

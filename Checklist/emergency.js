@@ -69,6 +69,12 @@
         });
         label.append(checkbox, element('span', item.text, 'step-text'));
         row.append(label);
+        if (item.procedureLink && category.procedures.some(target => target.id === item.procedureLink)) {
+          row.classList.add('action-with-procedure');
+          const link = element('a', 'Engine cleanup', 'procedure-shortcut');
+          link.href = '#' + category.id + '/' + item.procedureLink;
+          row.append(link);
+        }
         content.append(row);
       });
       if (procedure.items.some(item => item.type === 'action')) {

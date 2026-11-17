@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'ch54b-load-calculator-v124';
+const CACHE_NAME = 'ch54b-load-calculator-v130';
 const PRECACHE = [
   './',
   './index.html',
@@ -29,6 +29,10 @@ const PRECACHE = [
   './Checklist/checklist.js',
   './Checklist/normal.html',
   './Checklist/normal-data.js',
+  './Checklist/normal-a-expanded.js',
+  './Checklist/normal-b.html',
+  './Checklist/normal-b-data.js',
+  './Checklist/normal-b-expanded.js',
   './Checklist/normal.js',
   './Checklist/list-runner.js',
   './Checklist/list-runner.css',
