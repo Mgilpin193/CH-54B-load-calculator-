@@ -2,11 +2,13 @@
 (() => {
   const aChecklist = 'Checklist/normal.html';
   const bChecklist = 'Checklist/normal-b.html';
+  const aEmergency = 'Checklist/emergency-a.html';
+  const bEmergency = 'Checklist/emergency.html';
   const routes = {
-    CH54A: { label: 'CH-54A', checklist: aChecklist, emergency: 'Checklist/emergency-a.html' },
-    CH54B: { label: 'CH-54B', checklist: bChecklist, emergency: 'Checklist/emergency.html' },
-    CH54A_CMRB: { label: 'CH-54A CMRB', checklist: aChecklist, emergency: null },
-    CH54B_CMRB: { label: 'CH-54B CMRB', checklist: bChecklist, emergency: null }
+    CH54A: { label: 'CH-54A', checklist: aChecklist, emergency: aEmergency },
+    CH54B: { label: 'CH-54B', checklist: bChecklist, emergency: bEmergency },
+    CH54A_CMRB: { label: 'CH-54A CMRB', checklist: aChecklist, emergency: aEmergency },
+    CH54B_CMRB: { label: 'CH-54B CMRB', checklist: bChecklist, emergency: bEmergency }
   };
   const frames = new Map();
   const picker = document.getElementById('perfModel');

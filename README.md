@@ -15,7 +15,7 @@ The performance selector includes CH-54A, CH-54A CMRB, CH-54B, and CH-54B CMRB. 
 - CH-54A and CH-54B normal checklists include expanded checks, Complete, Postpone, Go back, and postponed-item review.
 - After the second engine start, choose Ground Taxi or Before Takeoff. Ground Taxi then leads to Before Takeoff.
 - CH-54A and CH-54B emergency procedures: loaded, with category menus and checkboxes.
-- CMRB selections use the matching A- or B-model normal checklist. CMRB emergency procedures are unavailable.
+- CMRB selections use the matching A- or B-model normal checklist and emergency procedures.
 
 Switching tabs retains the checklist position for the current page session. Performance entries are stored in the browser on that device. They are not sent to the website host.
 

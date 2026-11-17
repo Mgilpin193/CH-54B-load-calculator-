@@ -61,9 +61,9 @@ app.openEmergency();
 app.openChecklist();
 assert.equal(ids.checklistHost.children[1], savedFrame);
 assert.equal(savedFrame.progress, 'Item 6');
-for (const [model, source] of [
-  ['CH54A_CMRB', savedFrame.src],
-  ['CH54B_CMRB', bFrame.src]
+for (const [model, source, emergencySource] of [
+  ['CH54A_CMRB', savedFrame.src, ids.emergencyHost.children[1].src],
+  ['CH54B_CMRB', bFrame.src, ids.emergencyHost.children[0].src]
 ]) {
   ids.perfModel.value = model;
   ids.perfModel.fire('change');
@@ -71,8 +71,8 @@ for (const [model, source] of [
   assert.equal(ids.checklistUnavailable.hidden, true);
   assert.deepEqual(ids.checklistHost.children.filter(frame => !frame.hidden).map(frame => frame.src), [source]);
   app.openEmergency();
-  assert.equal(ids.emergencyUnavailable.hidden, false);
-  assert.ok(ids.emergencyHost.children.every(frame => frame.hidden));
+  assert.equal(ids.emergencyUnavailable.hidden, true);
+  assert.deepEqual(ids.emergencyHost.children.filter(frame => !frame.hidden).map(frame => frame.src), [emergencySource]);
 }
 ids.perfModel.value = 'CH54A';
 documentEvents.inputsRestored();
